@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blockchain test</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 mx-auto mt-5">
+
+            {% block content %}
+
+            {% endblock %}
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 mx-auto mt-5 text-center">
+            <form action="{{ url_for('check') }}">
+                <button type="submit" class="btn btn-info">Check Blockchain</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 mx-auto mt-5 mb-5">
+            {% block checking %}
+
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
