@@ -15,6 +15,26 @@ def get_files():
     return sorted([int(i) for i in files])
 
 
+def genesis_create():
+    files = get_files()
+    if len(files) == 0:
+        data = {'name': '', 'amount': 0, 'to_whom': '', 'hash': ''}
+
+        with open(blockchain_dir + '1', 'w') as file:
+            json.dump(data, file, indent=4, ensure_ascii=False)
+
+        f = open(blockchain_dir + '1')
+        h = json.load(f)['hash'] = get_hash('1')
+        data['hash'] = h
+
+        with open(blockchain_dir + '1', 'w') as file:
+            json.dump(data, file, indent=4, ensure_ascii=False)
+        f.close()
+        print('Genesis created')
+    else:
+        print('Genesis exist')
+
+
 def check_int():
     files = get_files()
     results = []
@@ -37,7 +57,13 @@ def check_int():
 
 def write_block(name, amount, to_whom, prev_hash=''):
     files = get_files()
+    last_file_name = files[-1]
+    last_file = str(last_file_name)
 
+    if len(files) > 2:
+        os.remove(blockchain_dir + last_file)
+
+    files = get_files()
     last_file_name = files[-1]
 
     next_file_name = str(last_file_name + 1)
@@ -49,3 +75,17 @@ def write_block(name, amount, to_whom, prev_hash=''):
     with open(blockchain_dir + next_file_name, 'w') as file:
         json.dump(data, file, indent=4, ensure_ascii=False)
 
+    make_ghost(data)
+
+
+def make_ghost(data):
+    files = get_files()
+    last_file_name = files[-1]
+    next_file_name = str(last_file_name)
+    prev_hash = get_hash(str(last_file_name))
+    data['hash'] = prev_hash
+
+    ghost_name = str(int(next_file_name) + 1)
+
+    with open(blockchain_dir + ghost_name, 'w') as file:
+        json.dump(data, file, indent=4, ensure_ascii=False)

@@ -1,7 +1,8 @@
 from flask import Flask
 from flask import render_template, redirect, url_for
 from flask import request
-from block import write_block, check_int
+from blockchain import genesis_create, write_block, check_int
+
 
 app = Flask(__name__)
 
@@ -26,4 +27,5 @@ def check():
 
 
 if __name__ == '__main__':
+    genesis_create()
     app.run(debug=True)
