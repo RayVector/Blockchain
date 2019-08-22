@@ -10,10 +10,8 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
-        lender = request.form['lender']
-        amount = request.form['amount']
-        borrower = request.form['borrower']
-        write_block(lender, amount, borrower)
+        name = request.form['name']
+        write_block(name)
 
         return redirect(url_for('index'))
 
