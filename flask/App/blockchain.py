@@ -18,7 +18,7 @@ def get_files():
 def genesis_create():
     files = os.listdir(blockchain_dir)
     if len(files) == 0:
-        data = {'name': '', 'hash': ''}
+        data = {'name': 'Genesis', 'hash': ''}
 
         with open(blockchain_dir + '1', 'w') as file:
             json.dump(data, file, indent=4, ensure_ascii=False)
@@ -42,7 +42,9 @@ def check_int():
     for item in files[1:]:
         f = open(blockchain_dir + str(item))
         h = json.load(f)['hash']
-        n = json.load(f)['name']
+
+        f2 = open(blockchain_dir + str(item))
+        n = json.load(f2)['name']
 
         prev_file = str(item - 1)
 
@@ -63,7 +65,7 @@ def make_ghost(data):
     prev_hash = get_hash(str(last_file_name))
     data['hash'] = prev_hash
 
-    ghost_name = str(int(next_file_name) + 1) + 'g'
+    ghost_name = str(int(next_file_name) + 1)
 
     with open(blockchain_dir + ghost_name, 'w') as file:
         json.dump(data, file)

@@ -5,7 +5,7 @@
     <form action="{{ url_for('index') }}" method="POST">
 
         <div class="form-group">
-            <label for="exampleInputName">Settler Name:</label>
+            <label for="exampleInputName">Type your name:</label>
             <input type="text" class="form-control" id="exampleInputName"
                    name="name"
                    value="{{ request.form.get('name', '') }}"
@@ -20,10 +20,21 @@
 
 
 {% block checking %}
-
+    <h1>System:</h1>
     {% for item in results %}
+
         <div class="result">
-            block {{ item['block'] }} : {{ item['result'] }} | {{ item['name'] }} : {{ item['id'] }}
+
+            <table border="1" width="100%" cellpadding="10">
+                <tr>
+                    <th>User:</th>
+                    <th>Node:</th>
+                </tr>
+                <tr>
+                    <td>{{ item['name'] }} : {{ item['id'] }}</td>
+                    <td>block {{ item['block'] }} : {{ item['result'] }}</td>
+                </tr>
+            </table>
         </div>
     {% endfor %}
 
