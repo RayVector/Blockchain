@@ -19,24 +19,35 @@
 {% endblock %}
 
 
-{% block checking %}
-    <h1>System:</h1>
-    {% for item in results %}
+{% block check %}
+    <h1 class="mb-5">System:</h1>
 
-        <div class="result">
 
-            <table border="1" width="100%" cellpadding="10">
+
+    <div class="result">
+
+        <table class="table table-bordered table-hover">
+            <thead class="table-info">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Node:</th>
+                <th scope="col">Status:</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in results %}
                 <tr>
-                    <th>User:</th>
-                    <th>Node:</th>
-                </tr>
-                <tr>
+                    <th scope="row">{{ item['block'] }}</th>
                     <td>{{ item['name'] }} : {{ item['id'] }}</td>
-                    <td>block {{ item['block'] }} : {{ item['result'] }}</td>
+                    <td>{{ item['result'] }}</td>
                 </tr>
-            </table>
-        </div>
-    {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+
 
 
 {% endblock %}

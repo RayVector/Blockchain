@@ -18,7 +18,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/checking', methods=['GET'])
+@app.route('/check', methods=['GET'])
 def check():
     results = check_int()
     return render_template('index.html', results=results)

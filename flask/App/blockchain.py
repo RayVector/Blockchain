@@ -19,18 +19,18 @@ def get_files():
 def genesis_create():
     files = os.listdir(blockchain_dir)
     if len(files) == 0:
-        data = {'name': 'Genesis', 'hash': ''}
+        data = {'name': 'Core'}
 
         with open(blockchain_dir + '1', 'w') as file:
             json.dump(data, file, indent=4, ensure_ascii=False)
-
-        f = open(blockchain_dir + '1')
-        h = json.load(f)['hash'] = get_hash('1')
-        data['hash'] = h
-
-        with open(blockchain_dir + '1', 'w') as file:
-            json.dump(data, file, indent=4, ensure_ascii=False)
-        f.close()
+        # hashing genesis self
+        # f = open(blockchain_dir + '1')
+        # h = json.load(f)['hash'] = get_hash('1')
+        # data['hash'] = h
+        #
+        # with open(blockchain_dir + '1', 'w') as file:
+        #     json.dump(data, file, indent=4, ensure_ascii=False)
+        # f.close()
         print('Genesis created')
         now = datetime.datetime.now()
         print(str(now))
@@ -44,23 +44,24 @@ def check_int():
     files = get_files()
     results = []
 
-    for item in files[1:]:
-        f = open(blockchain_dir + str(item))
-        h = json.load(f)['hash']
+    if len(files) < 2:
+        results.append({'block': 'empty', 'result': 'empty', 'name': 'system', 'id': 'empty'})
+    else:
+        for item in files[1:]:
+            f = open(blockchain_dir + str(item))
+            h = json.load(f)['hash']
 
-        f2 = open(blockchain_dir + str(item))
-        n = json.load(f2)['name']
+            prev_file = str(item - 1)
 
-        prev_file = str(item - 1)
+            f2 = open(blockchain_dir + prev_file)
+            n = json.load(f2)['name']
 
-        actual_hash = get_hash(prev_file)
-        if h == actual_hash:
-            res = 'Ok'
-        else:
-            res = 'Corrupted'
-        results.append({'block': prev_file, 'result': res, 'name': n, 'id': h})
-    # delete ghost:
-    del results[-1]
+            actual_hash = get_hash(prev_file)
+            if h == actual_hash:
+                res = 'Correct'
+            else:
+                res = 'Damaged'
+            results.append({'block': prev_file, 'result': res, 'name': n, 'id': h})
     return results
 
 
@@ -87,6 +88,9 @@ def remove_ghost():
 
 
 def write_block(name, prev_hash=''):
+    now = datetime.datetime.now()
+    print(str(now))
+
     remove_ghost()
 
     files = get_files()
