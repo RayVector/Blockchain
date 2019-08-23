@@ -17,9 +17,10 @@ def get_files():
 
 
 def genesis_create():
+    get_time = str(datetime.datetime.now())
     files = os.listdir(blockchain_dir)
     if len(files) == 0:
-        data = {'name': 'Core'}
+        data = {"name": "Core", "time": get_time}
 
         with open(blockchain_dir + '1', 'w') as file:
             json.dump(data, file, indent=4, ensure_ascii=False)
@@ -32,12 +33,8 @@ def genesis_create():
         #     json.dump(data, file, indent=4, ensure_ascii=False)
         # f.close()
         print('Genesis created')
-        now = datetime.datetime.now()
-        print(str(now))
     else:
         print('Genesis exist')
-        now = datetime.datetime.now()
-        print(str(now))
 
 
 def check_int():
@@ -88,8 +85,7 @@ def remove_ghost():
 
 
 def write_block(name, prev_hash=''):
-    now = datetime.datetime.now()
-    print(str(now))
+    get_time = str(datetime.datetime.now())
 
     remove_ghost()
 
@@ -100,7 +96,7 @@ def write_block(name, prev_hash=''):
 
     prev_hash = get_hash(str(last_file_name))
 
-    data = {'name': name, 'hash': prev_hash}
+    data = {"name": name, "time": get_time, "hash": prev_hash}
 
     with open(blockchain_dir + next_file_name, 'w') as file:
         json.dump(data, file, indent=4, ensure_ascii=False)
