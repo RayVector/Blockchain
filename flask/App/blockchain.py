@@ -1,6 +1,7 @@
 import json
 import os
 import hashlib
+import datetime
 
 blockchain_dir = os.curdir + '/blockchain/'
 
@@ -31,8 +32,12 @@ def genesis_create():
             json.dump(data, file, indent=4, ensure_ascii=False)
         f.close()
         print('Genesis created')
+        now = datetime.datetime.now()
+        print(str(now))
     else:
         print('Genesis exist')
+        now = datetime.datetime.now()
+        print(str(now))
 
 
 def check_int():
@@ -54,7 +59,8 @@ def check_int():
         else:
             res = 'Corrupted'
         results.append({'block': prev_file, 'result': res, 'name': n, 'id': h})
-
+    # delete ghost:
+    del results[-1]
     return results
 
 
@@ -72,7 +78,6 @@ def make_ghost(data):
 
 
 def remove_ghost():
-    # files = get_files()
     files = os.listdir(blockchain_dir)
     last_file_name = files[-1]
     last_file = str(last_file_name)
@@ -97,6 +102,3 @@ def write_block(name, prev_hash=''):
         json.dump(data, file, indent=4, ensure_ascii=False)
 
     make_ghost(data)
-
-
-
