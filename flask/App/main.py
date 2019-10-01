@@ -3,7 +3,6 @@ from flask import render_template, redirect, url_for
 from flask import request
 from blockchain import genesis_create, write_block, check_int
 
-
 app = Flask(__name__)
 
 
@@ -11,7 +10,9 @@ app = Flask(__name__)
 def index():
     if request.method == 'POST':
         name = request.form['name']
-        write_block(name)
+
+        if name != ' ':
+            write_block(name)
 
         return redirect(url_for('index'))
 
